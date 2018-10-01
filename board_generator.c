@@ -1,144 +1,177 @@
 #include "board_generator.h"
 
-// Initializes the dice in the list of pre-set dice. Call once at program start.
-void initialize_preset_dice(struct preset_dice* input_array_of_dice) {
-	for (int i = 0; i < 16; i++) {
-		input_array_of_dice[i].position = 0;
+int alreadyShuffled( RolledDice die );
+
+/* Author: William Crocket
+   Date: 09/27/2018
+   Description: Initializes the dice in the list of pre-set dice. Call once at program start.
+*/
+void initializePresetDice( PresetDice* inputArrayOfDice )
+{
+	int i = 0;
+
+	for ( i = 0; i < 16; i++ ) {
+		inputArrayOfDice[ i ].position = 0;
 	}
 
 	// initializes individual potential chars for each dice
-	input_array_of_dice[0].configurations = "RIFOBX";
-	input_array_of_dice[1].configurations = "IFEHEY";
-	input_array_of_dice[2].configurations = "DENOWS";
-	input_array_of_dice[3].configurations = "UTOKND";
-	input_array_of_dice[4].configurations = "HMSRAO";
-	input_array_of_dice[5].configurations = "LUPETS";
-	input_array_of_dice[6].configurations = "ACITOA";
-	input_array_of_dice[7].configurations = "YLGKUE";
-	input_array_of_dice[8].configurations = "QBMJOA";
-	input_array_of_dice[9].configurations = "EHISPN";
-	input_array_of_dice[10].configurations = "VETIGN";
-	input_array_of_dice[11].configurations = "BALIYT";
-	input_array_of_dice[12].configurations = "EZAVND";
-	input_array_of_dice[13].configurations = "RALESC";
-	input_array_of_dice[14].configurations = "UWILRG";
-	input_array_of_dice[15].configurations = "PACEMD";
+	inputArrayOfDice[ 0 ].configurations = "RIFOBX";
+	inputArrayOfDice[ 1 ].configurations = "IFEHEY";
+	inputArrayOfDice[ 2 ].configurations = "DENOWS";
+	inputArrayOfDice[ 3 ].configurations = "UTOKND";
+	inputArrayOfDice[ 4 ].configurations = "HMSRAO";
+	inputArrayOfDice[ 5 ].configurations = "LUPETS";
+	inputArrayOfDice[ 6 ].configurations = "ACITOA";
+	inputArrayOfDice[ 7 ].configurations = "YLGKUE";
+	inputArrayOfDice[ 8 ].configurations = "QBMJOA";
+	inputArrayOfDice[ 9 ].configurations = "EHISPN";
+	inputArrayOfDice[ 10 ].configurations = "VETIGN";
+	inputArrayOfDice[ 11 ].configurations = "BALIYT";
+	inputArrayOfDice[ 12 ].configurations = "EZAVND";
+	inputArrayOfDice[ 13 ].configurations = "RALESC";
+	inputArrayOfDice[ 14 ].configurations = "UWILRG";
+	inputArrayOfDice[ 15 ].configurations = "PACEMD";
 }
 
-// Rolls the dice to be used at the start of each game. Puts the rolled dice in
-// game_dice. Does not shuffle the dice. Helper function.
-void roll_but_not_shuffle_dice(struct rolled_dice* game_dice,
-		struct preset_dice* input_array_of_dice) {
+/* Author: William Crocket
+   Date: 09/27/2018
+   Description: Rolls the dice to be used at the start of each game. Puts the rolled dice in
+   game_dice. Does not shuffle the dice. Helper function.
+*/
+void rollButNotShuffleDice( RolledDice* gameDice, PresetDice* inputArrayOfDice )
+{
+	int i = 0;
+	int face = 0;
 
-	srand(time(NULL));
-	for (int i = 0; i < 16; i++) {
-		int r = rand()%6;
-		game_dice[i].character = input_array_of_dice[i].configurations[r];
+	/* Randomize the seed */
+	srand( time( NULL ) );
+
+	for ( i = 0; i < 16; i++ ) {
+		face = rand() % 6;
+		gameDice[ i ].character = inputArrayOfDice[ i ].configurations[ face ];
 	}
 }
 
-// Shuffles an array of rolled dice. Helper function.
-void shuffle_rolled_dice_positions(struct rolled_dice* game_dice) {
+/* Author: William Crocket
+   Date: 09/27/2018
+   Description: Shuffles an array of rolled dice. Helper function.
+*/
+void shuffleRolledDicePositions( RolledDice* gameDice )
+{
+	/* newGameDice is a temporary array to hold the shuffled dice */
+	RolledDice newGameDice[ 16 ];
+	int i = 0;
+    int randomIndex = 0;
 
-	struct rolled_dice new_game_dice[16];
+	for ( i = 0; i < 16; i++ ) {
 
-	int r = 0;
-	for (int i = 0; i < 16; i++) {
+		/* Randomize the seed */
+		srand( time( NULL ) );
 
-		srand(time(NULL));
-		// this is somewhat inefficient. Using it for now.
-		while (game_dice[r].position == -1) {
-			r = (int) (rand()%16);
-		}
-		new_game_dice[i] = game_dice[r];
-		game_dice[r].position = -1;
+		/* Loop until an index is generated such that the corresponding die
+		   has not been shuffled yet */
+		do {
+			randomIndex = rand() % 16;
+		} while ( alreadyShuffled( gameDice[ randomIndex ] ) );
+
+		newGameDice[ i ] = gameDice[ randomIndex ];
+		gameDice[ randomIndex ].position = 1;
 	}
-
-	for (int i = 0; i < 16; i++) {
-		game_dice[i] = new_game_dice[i];
-		game_dice[i].position = i+1;
+    
+	/* This loop copies all of the shuffled dice from the temporary newGameDice array
+	   back to the original gameDice array */
+	for ( i = 0; i < 16; i++ ) {
+		gameDice[ i ] = newGameDice[ i ];
+		gameDice[ i ].position = i + 1;
 	}
 }
 
+/* Author: William Crocket
+   Date: 09/27/2018
+   Description: Returns 1 if the given die has already been shuffled into the game board.
+   Helper function.
+*/
+int alreadyShuffled( RolledDice die )
+{
+	if ( die.position ) {
+		return 1;
+	}
+	else {
+		return 0;
+	}
+}
 
-// Rolls the dice to be used at the start of the game and shuffles them, putting
-// the dice into the 2D array game_dice. Call once at the start of every game.
-void roll_dice(struct rolled_dice** game_board,
-		struct preset_dice* input_array_of_dice){
-
-	game_board[0] = malloc(sizeof(struct rolled_dice) * 4);
-	game_board[1] = malloc(sizeof(struct rolled_dice) * 4);
-	game_board[2] = malloc(sizeof(struct rolled_dice) * 4);
-	game_board[3] = malloc(sizeof(struct rolled_dice) * 4);
-
+/* Author: William Crocket
+   Date: 09/27/2018
+   Description: Rolls the dice to be used at the start of the game and shuffles them, putting
+   the dice into the 2D array gameBoard. Call once at the start of every game.
+*/
+void rollDice( RolledDice** gameBoard, PresetDice* inputArrayOfDice )
+{
 	// temporary array of structs to contain adjusted 1D array of dice.
-	struct rolled_dice adjusted_dice_array[16];
+	RolledDice adjustedDiceArray[ 16 ];
+	int i = 0;
+	int j = 0;
 
-	roll_but_not_shuffle_dice(adjusted_dice_array, input_array_of_dice);
-	shuffle_rolled_dice_positions(adjusted_dice_array);
+	gameBoard[ 0 ] = malloc( sizeof( RolledDice ) * 4 );
+	gameBoard[ 1 ] = malloc( sizeof( RolledDice ) * 4 );
+	gameBoard[ 2 ] = malloc( sizeof( RolledDice ) * 4 );
+	gameBoard[ 3 ] = malloc( sizeof( RolledDice ) * 4 );
 
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
-			game_board[i][j] = adjusted_dice_array[i*4 + j];
+	rollButNotShuffleDice( adjustedDiceArray, inputArrayOfDice );
+	shuffleRolledDicePositions( adjustedDiceArray );
+
+	for ( i = 0; i < 4; i++ ) {
+		for ( j = 0; j < 4; j++ ) {
+			gameBoard[ i ][ j ] = adjustedDiceArray[ ( i * 4 ) + j ];
 		}
 	}
 }
-// Prints a visualization of the input array of rolled_dice.
-void print_game_board(struct rolled_dice** game_board) {
 
-	for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
-				if (j != 3) {
-					printf("%c \t", game_board[i][j].character);
-				}
-				else {
-					printf("%c \n", game_board[i][j].character);
+/* Author: William Crocket
+   Date: 09/27/2018
+   Description: Prints a visualization of the input array of rolled_dice.
+*/
+void printGameBoard( RolledDice** gameBoard )
+{
+	int i = 0;
+	int j = 0;
 
-				}
-			}
-		}
-}
-
-void print_hc_board(char boggle[][4]) {
-
-	for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
-				if (j != 3) {
-					printf("%c \t", boggle[i][j]);
-				}
-				else {
-					printf("%c \n", boggle[i][j]);
-
-				}
-			}
-		}
-}
-
-/** Converts board from a string version to 2D array. Used in test mode**/
-void convert_to_board(char *letters, char ***board){
-	// allocate space for boggle board on heap in order to access it in main. 
-	char *word;
-	int i, j, t = 0;
-
-	*board = malloc(sizeof(char * ) * 4);
-	char **board_deref = *board;
-
-	board_deref[0] = malloc(sizeof(char) * 4);
-	board_deref[1] = malloc(sizeof(char) * 4);
-	board_deref[2] = malloc(sizeof(char) * 4);
-	board_deref[3] = malloc(sizeof(char) * 4);
-
-	for (i = 0; i < 4; i++) {
-		for (j = 0; j < 4; j++) {
-			if (j != 3) {
-				board_deref[i][j] = letters[t];
-				t++;
-				
+	for ( i = 0; i < 4; i++ ) {
+		for ( j = 0; j < 4; j++ ) {
+			if ( j != 3 ) {
+				printf( "%c \t", gameBoard[ i ][ j ].character );
 			}
 			else {
-				board_deref[i][j] = letters[t];
-				t++;
+				printf( "%c \n", gameBoard[ i ][ j ].character );
 			}
+		}
+	}
+}
+
+/* Author: William Crocket
+   Date: 09/27/2018
+   Description: Converts board from a string version to 2D array. Used in test mode
+*/
+void convertToBoard( char* letters, char*** board )
+{
+	int i = 0;
+	int j = 0;
+	int t = 0;
+
+	/* allocate space for boggle board on heap in order to access it in main. */
+	*board = malloc( sizeof( char * ) * 4 );
+	char** board_deref = *board;
+
+	board_deref[ 0 ] = malloc( sizeof( char ) * 4 );
+	board_deref[ 1 ] = malloc( sizeof( char ) * 4 );
+	board_deref[ 2 ] = malloc( sizeof( char ) * 4 );
+	board_deref[ 3 ] = malloc( sizeof( char ) * 4 );
+
+	for ( i = 0; i < 4; i++ ) {
+		for ( j = 0; j < 4; j++ ) {
+			board_deref[ i ][ j ] = letters[ t ];
+			t++;
 		}
 	}
 }
