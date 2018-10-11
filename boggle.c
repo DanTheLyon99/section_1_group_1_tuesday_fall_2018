@@ -12,156 +12,256 @@
  - set up board,
  - set up dictionary,
  **/
+/*Author: Aaron McNeil
+  Date: October 1, 2018
+	Description: Increments the total score based on the word length*/
+void incrementTotalScore(
+    int *userScore,
+		char *word);
 
-void increment_total_score(int *user_score, char *word);
+/*Author: Aaron McNeil
+  Date: October 1, 2018
+  Description: Clears the game baord*/
+void freeAndResetBoard(
+    struct RolledDice** gameBoard,
+		struct PresetDice* inputArrayOfDice)
+{
 
-void free_and_reset_board(struct rolled_dice** game_board,
-		struct preset_dice* input_array_of_dice) {
+    for (int i = 0; i < 4; i++) {
 
-	for (int i = 0; i < 4; i++) {
-		free(game_board[i]);
-	}
-	roll_dice(game_board, input_array_of_dice);
+			  /*Frees all the gameBoard Structs*/
+		    free(gameBoard[i]);
+	  }
+
+		/*Rolls dice*/
+	  rollDice(gameBoard, inputArrayOfDice);
 }
 
+/*Author: Aaron McNeil
+  Date: October 1, 2018
+	Description: Converts a String to all upper case using a double pointer*/
+char *convertToUpper(
+    char **upper)
+{
+	  /*Local variables*/
+    char *upperDeref = *upper;
 
-char *convert_to_upper(char **upper){
-	char *upper_deref = *upper;
+    /*Loops through the string*/
+	  for(int i = 0; upper_deref[i]; i++){
 
-	for(int i = 0; upper_deref[i]; i++){
-	  upper_deref[i] = toupper(upper_deref[i]);
-	}
-	return upper_deref;
+			  /*Converts the char to upper case by calling the toUpper function*/
+	      upperDeref[i] = toUpper(upperDeref[i]);
+  	}
+
+		/*Return the new String*/
+  	return upperDeref;
 }
 
-char *convert_to_upper2(char (*upper)[]){
-	char *upper_deref = *upper;
+/*Author: Aaron McNeil
+  Date: October 1, 2018
+	Description: Converts a String to all upper case using an array*/
+char *convertToUpper2(
+    char (*upper)[])
+{
+	  /*Local variables*/
+    char *upperDeref = *upper;
 
-	for(int i = 0; upper_deref[i]; i++){
-	  upper_deref[i] = toupper(upper_deref[i]);
-	}
-	return upper_deref;
+    /*Loops through the String*/
+	  for(int i = 0; upper_deref[i]; i++){
+
+			  /*Converts the char to upper case by calling the toUpper function*/
+	      upperDeref[i] = toUpper(upperDeref[i]);
+	  }
+
+    /*Return the new String*/
+	  return upperDeref;
 }
 
-void increment_total_score(int *user_score, char *word){
-	int word_len = strlen(word);
-	fprintf(stdout, "word_len: %d\n",word_len );
-	if(word_len == 3 || word_len == 4){
-		*user_score+=1;
-	}else if(word_len == 5){
-		*user_score+=2;
-	}else if(word_len == 6){
-		*user_score+=3;
-	}else if(word_len == 7){
-		*user_score+=5;
-	}else if(word_len >= 8){
+/*Author: Aaron McNeil
+  Date: October 1, 2018
+	Description: Increments the total score based on the word length*/
+void incrementTotalScore(
+    int *userScore,
+		char *word){
+
+  /*Local variables*/
+	int wordLen = strlen(word);
+
+  /*Print the word length to the screen*/
+	fprintf(stdout, "word_len: %d\n", wordLen );
+
+  /*Determine how much to increment the score based on the word length*/
+	if(wordLen == 3 || wordLen == 4){
+
+		*userScore+=1;
+
+	}else if(wordLen == 5){
+
+		*userScore+=2;
+
+	}else if(wordLen == 6){
+
+		*userScore+=3;
+
+	}else if(wordLen == 7){
+
+		*userScore+=5;
+
+	}else if(wordLen >= 8){
+
 		*user_score+=11;
+
 	}
+
 }
 
 
 int main (int argc, char ** argv) {
-	int i, points = 0, test_points = 0, invalid_size = 0;
-	char input_word[100];
-	char original_input_word[100];
 
-	FILE *input_FP;
-	char line [MAX_LINE];
-	char *file_name;
- 	
- 	const char * dict_name = "EnglishWords.txt";
-	DNode* check_english;
-	DNode* check_submitted;
-	static DNode* english_dictionary [BIG_HASH_SIZE];
-	static DNode* guessed_words [SMALL_HASH_SIZE];
+    /*Variables*/
+    int i, points = 0, testPoints = 0, invalidSize = 0;
+	  char inputWord[100];
+	  char originalInputWord[100];
 
-	int current_score = 0;
-	int turn_count = 0;
+	  FILE *inputFP;
+	  char line [MAX_LINE];
+	  char *fileName;
 
-	User* head = NULL;
-	head = (User*)malloc(sizeof(User));
+ 	  const char * DICTNAME = "EnglishWords.txt";
+	  DNode* checkEnglish;
+	  DNode* checkSubmitted;
+	  static DNode* englishDictionary [BIG_HASH_SIZE];
+	  static DNode* guessedWords [SMALL_HASH_SIZE];
 
-	PresetDice global_dice[16];
-	RolledDice *game_board[4];
+	  int currentScore = 0;
+	  int turnCount = 0;
 
-	FILE *output_FP;
-	char read_line[MAX_LINE]; 
+	  User* head = NULL;
+	  head = (User*)malloc(sizeof(User));
 
+	  PresetDice globalDice[16];
+	  RolledDice *gameBoard[4];
 
-	if(!(input_FP = fopen ( dict_name , "r" )))    {
-        fprintf(stderr,"Could not open file \"%s\" for reading dictionary words\n", dict_name);
+	  FILE *outputFP;
+	  char readLine[MAX_LINE];
+
+    /*Check if the file can be opened*/
+	  if(!(inputFP = fopen ( dictName , "r" ))){
+
+        /*File can no be opened*/
+        fprintf(stderr,"Could not open file \"%s\" for reading dictionary words\n", DICTNAME);
+
         return 1;
     }
 
-	while( fgets (line, MAX_LINE, input_FP)!=NULL ) {
-		line[strcspn(line, "\r\n")] = '\0';  //trim new line characters
-		insert (english_dictionary, BIG_HASH_SIZE, convert_to_upper2(&line));
-	}	
-	fclose (input_FP);
+    /*Loop through the file until the program reaches the end*/
+	  while( fgets (line, MAX_LINE, inputFP)!=NULL ){
+
+        /*Add the 'null' character to the end of the word*/
+		    line[strcspn(line, "\r\n")] = '\0';  //trim new line characters
+
+				/*Convert word to upper case and add it to the dictionary*/
+		    insert (englishDictionary, BIG_HASH_SIZE, convertToUpper2(&line));
+
+	  }
+
+    /*Close the file*/
+	  fclose (inputFP);
 
 
-	if (argc == 1){
-		fprintf(stdout, "playing in normal mode\n\n");
+	  if (argc == 1){
 
-		system("clear");
+			  /*Start the game in normal mode*/
+		    fprintf(stdout, "playing in normal mode\n\n");
 
-		initialize_preset_dice(global_dice);
+		    system("clear");
 
-		roll_dice(game_board, global_dice);
+		    initializePresetDice(globalDice);
 
-		while (turn_count >= 0) {
-			strcpy(original_input_word, input_word);
+		    rollDice(gameBoard, globalDice);
 
-			convert_to_upper2(&input_word);
+        /*Loop until turnCount is less than '0'*/
+		    while (turnCount >= 0){
 
-			User *thisUser;
-			char input_name[100];
+					  /*Save the original input word*/
+			      strcpy(originalInputWord, inputWord);
 
-			if (strcmp(original_input_word, "q") == 0) {
-				// "q" is the input, print scoreboard and exit game
-				print_scoreboard(head);
-				break;
+            /*Convert String to upper case*/
+			      convertToUpper2(&inputWord);
+
+            /*New variables*/
+			      User *thisUser;
+			      char inputName[100];
+
+        /*Check if the user wants to quit the game*/
+			  if (strcmp(original_input_word, "q") == 0) {
+
+				    // "q" is the input, print scoreboard and exit game
+				    printScoreboard(head);
+
+				    break;
 			}
+
 			// "n" is the input, adds user to/changes user in linked list and
 			// resets game
-			if (strcmp(original_input_word, "n") == 0) {
+			if (strcmp(originalInputWord, "n") == 0) {
 
-				print_scoreboard(head);
-				fprintf(stdout, "Your current score: %d \n", current_score);
-				fprintf(stdout, "What is your name? \n");
-				scanf("%s", input_name);
+          /*Print the scoreboard*/
+			    printScoreboard(head);
 
-				if (user_is_in_list(head, input_name) == 0){
-					add_node(head, input_name, current_score);
-				}
-				else {
-					update_node_with_name(head, input_name, current_score);
-				}
+          /*Print the current score to the screen*/
+				  fprintf(stdout, "Your current score: %d \n", currentScore);
 
-				current_score = 0;
+          /*Ask and get the user's name*/
+				  fprintf(stdout, "What is your name? \n");
 
-				strcpy(input_word, "");
+				  scanf("%s", inputName);
 
-				free_and_reset_board(game_board, global_dice);
-				turn_count = 0;
+          /*Check if the user is alread in the list*/
+				  if (userIsInList(head, inputName) == 0){
+
+              /*User is new, so add them to the list*/
+					    addNode(head, inputName, currentScore);
+				  }
+				  else {
+
+              /*User is already in the list, so update their score*/
+					    updateNodeWithName(head, inputName, currentScore);
+
+				  }
+
+        /*Reset the score, turnCount, board and inputWord*/
+        currentScore = 0;
+
+				strcpy(inputWord, "");
+
+				freeAndResetBoard(gameBoard, globalDice);
+
+				turnCount = 0;
+
 				system("clear");
+
 				continue;
 			}
 
-			print_game_board(game_board);
+      /*Print game board*/
+			printGameBoard(gameBoard);
 
-			check_english = lookup (english_dictionary, BIG_HASH_SIZE, input_word);			
-			
+      /*Check if word is valid*/
+			checkEnglish = lookup (englishDictionary, BIG_HASH_SIZE, inputWord);
+
+			/******************************END OF AARON'S CODE*********************************/
+
 			if (check_english != NULL) {
 				check_submitted = lookup (guessed_words, SMALL_HASH_SIZE, input_word);
-				
+
 				if (check_submitted == NULL) {
 					if(strlen(input_word) > 2){
 						if(word_checker(game_board, input_word)){
 							insert (guessed_words, SMALL_HASH_SIZE, input_word);
 							increment_total_score(&current_score, input_word);
 							fprintf (stdout, "Correct! You current score is now: %d \n", current_score);
-					
+
 						}else{
 							fprintf (stderr, "The submitted word: \'%s\'' does not abide game rules. Try again!\n", original_input_word);
 						}
@@ -220,38 +320,38 @@ int main (int argc, char ** argv) {
 								fprintf(stdout, "%c \t", test_board[i][j] );
 							}else {
 								fprintf(stdout, "%c \n", test_board[i][j] );
-							
+
 							}
 						}
-					
+
 					}
-			
+
 			}else if (file_line_counter >= 2){
 				for (char *p = strtok(test_line,","); p != NULL; p = strtok(NULL, ",")){
 					check_english = lookup (english_dictionary, BIG_HASH_SIZE, convert_to_upper(&p));
-						
+
 					if (check_english != NULL) {
 						check_submitted = lookup (guessed_words, SMALL_HASH_SIZE, p);
-						
+
 						if (check_submitted == NULL) {
 							if(test_word_checker(test_board, p)){
 								insert (guessed_words, SMALL_HASH_SIZE, p);
 								increment_total_score(&test_points, p);
 								fprintf(stdout,"Correct! You total score is now: %d \n",test_points );
-						
+
 							}else{
-								if(begin == 0){								
+								if(begin == 0){
 									fprintf(output_FP, "%s", p );
 									begin++;
 								}else{
 									fprintf(output_FP, ",%s", p );
 								}
-								
-								fprintf(stderr,"The submitted word: \'%s\'' does not abide game rules. Try again!\n", p);								
+
+								fprintf(stderr,"The submitted word: \'%s\'' does not abide game rules. Try again!\n", p);
 							}
 
 						}else{
-								if(begin == 0){								
+								if(begin == 0){
 									fprintf(output_FP, "%s", p );
 									begin++;
 								}else{
@@ -260,9 +360,9 @@ int main (int argc, char ** argv) {
 							fprintf(stderr,"You have already submitted the word: \'%s\'' Try again!\n", p);
 						}
 
-			
+
 				 	}else{
-						if(begin == 0){								
+						if(begin == 0){
 							fprintf(output_FP, "%s", p );
 							begin++;
 						}else{
