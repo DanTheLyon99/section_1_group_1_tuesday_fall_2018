@@ -276,20 +276,20 @@ int main (int argc, char ** argv) {
 
               fprintf (stderr, "The submitted word: \'%s\'' does not abide game rules. Try again!\n", originalInputWord);
 		    }
-    }
+
 
         else {
 
             fprintf (stderr, "The submitted word: \'%s\'' must be at least 3 letters long. Try again!\n", originalInputWord);
 				}
 
-		}
+
         else {
 
             fprintf (stderr, "You have already submitted the word: \'%s\'' Try again!\n", originalInputWord);
 				}
 
-		}
+
         else if (turn_count > 0){
 
             fprintf (stderr, "Incorrect word: \'%s\' is not in the English Dictionary. Try again!\n", originalInputWord);
