@@ -4,171 +4,197 @@
 #include <string.h>
 #include "scoreboard.h"
 
-/*
- * Finds and returns a pointer to the User in the linked list beginning with
- * head which has the name name_to_find. If such a User is not in the Linked
- * List, it will return NULL. Helper function to increment_score.
- */
-User* find_user_with_name(User* head, char* name_to_find) {
-	if (head == NULL) {
-		return head;
-	}
-	User *current = head ;
-	while (current != NULL) {
-		if (strcmp(current->name, name_to_find) == 0) {
-			return current;
-		}
-		current = (current)->next;
-	}
-	return NULL;
+/* Author: Carlo Pagcanlungan
+   Date: 10/09/2018
+   Description: Finds and returns a pointer to the User in the linked list
+                beginning with head which has the name name_to_find. If such a
+                User is not in the Linked List, it will return NULL. Helper
+                function to increment_score.*/
+User * findUserWithName ( User * head, char * nameToFind ) {
+    if ( head == NULL ) {
+		    return head;
+	  }
+	  User * current = head;
+	  while ( current != NULL ) {
+		    if ( strcmp ( current->name, nameToFind ) == 0 ) {
+			      return current;
+		    }
+		current = ( current )->next;
+	  }
+	  return NULL;
 }
 
-/* frees every element of the linked list */
-void free_all(User* head) {
-	if (head -> next == NULL) {
-		free(head);
-	}
-	else {
-		User *current = head->next;
-		User *previous = head;
-		while (current != NULL) {
-			free(previous);
-			previous = current;
-			current = (current)->next;
-		}
-	}
+/* Author: Carlo Pagcanlungan
+   Date: 10/09/2018
+   Description: Frees every element of the linked list.*/
+void freeAll ( User * head ) {
+    if ( head->next == NULL ) {
+		    free( head );
+	  }
+    else {
+		    User * current = head->next;
+		    User * previous = head;
+		    while ( current != NULL ) {
+			      free ( previous );
+			      previous = current;
+			      current = ( current )->next;
+		    }
+	  }
 }
 
-User* get_user_at_index(User* head, int index) {
-	if (head == NULL) {
-		return NULL;
-	}
-	User *current = head;
-	int count = 0;
-	while (current != NULL) {
-		if (count == index + 1) {
-			return current;
-		}
-		current = (current)->next;
-		count++;
-	}
-	return NULL;
+/* Author: Carlo Pagcanlungan
+   Date: 10/09/2018
+   Description: Finds and returns a pointer to the User in the linked list
+                beginning with head at the given index. If such a User is not
+                in the Linked List, it will return NULL.*/
+User * getUserAtIndex ( User * head, int index ) {
+    if ( head == NULL ) {
+		    return NULL;
+	  }
+	  User * current = head;
+	  int count = 0;
+	  while ( current != NULL ) {
+		    if ( count == index + 1 ) {
+			      return current;
+		    }
+		    current = ( current )->next;
+		    count++;
+	  }
+	  return NULL;
 }
 
-int get_index_of_user_with_name(User* head, char* name_to_find) {
-	if (head == NULL && head->name != name_to_find) {
-		return -1;
-	}
-	User *current = head;
-	int count = 0;
-	while (current != NULL) {
-		if (strcmp(current->name, name_to_find)) {
-			return count;
-		}
-		current = (current)->next;
-		count++;
-	}
-	return -1;
+/* Author: Carlo Pagcanlungan
+   Date: 10/09/2018
+   Description: Finds and returns the index of the User in the linked list
+                beginning with head which has the name name_to_find. If such a
+                User is not in the Linked List, it will return -1.*/
+int getIndexOfUserWithName ( User * head, char * nameToFind ) {
+	  if ( head == NULL && head->name != nameToFind ) {
+		    return -1;
+	  }
+	  User * current = head;
+	  int count = 0;
+	  while ( current != NULL ) {
+		    if ( strcmp ( current->name, nameToFind ) ) {
+		        return count;
+		    }
+		    current = ( current )->next;
+		    count++;
+	  }
+	  return -1;
 }
 
-/*
- * Finds whether or not a an existing user is already in the list. Of they are,
- * returns 1. If not, returns 0.
- */
-int user_is_in_list(User* head, char* name_to_find) {
-	User *current = head;
-	while (current != NULL) {
-		if (strcmp(current->name, name_to_find) == 0) {
-			return 1;
-		}
-		current = (current)->next;
-	}
-	return 0;
+ /* Author: Carlo Pagcanlungan
+    Date: 10/09/2018
+    Description: Finds whether or not an existing user is already in the list.
+                 If they are, returns 1. If not, returns 0.*/
+int userIsInList ( User * head, char * nameToFind ) {
+	  User * current = head;
+	  while ( current != NULL ) {
+		    if ( strcmp ( current->name, nameToFind ) == 0 ) {
+			      return 1;
+		    }
+		    current = ( current )->next;
+	  }
+	  return 0;
 }
 
-int get_length(User* head) {
-	if (head == NULL) {
-		return 0;
-	}
-	User *current = head;
-	int count = 0;
-	while (current != NULL) {
-		count++;
-		if (current->next == NULL) {
-			return count;
-		}
-		current = (current)->next;
-	}
-	return 0;
+/* Author: Carlo Pagcanlungan
+   Date: 10/09/2018
+   Description: Finds and returns the length of the linked list.*/
+int getLength ( User * head ) {
+    if ( head == NULL ) {
+		    return 0;
+	  }
+	  User * current = head;
+	  int count = 0;
+	  while (current != NULL) {
+		    count++;
+		    if ( current->next == NULL ) {
+			      return count;
+		    }
+		    current = (current)->next;
+	  }
+	  return 0;
 }
 
-/*
- * Helper function. Finds the last node in the linked list and returns it.
- * Returns NULL if called with an empty head, although such a case is not used
- * in the main function add_node.
- */
-User* get_last_node(User *head) {
-	if (head == NULL) {
-		return head;
-	}
-	User *current = head;
-	while (current != NULL) {
-		if (current->next == NULL) {
-			return current;
-		}
-		current = (current)->next;
-	}
-	return NULL;
+ /* Author: Carlo Pagcanlungan
+    Date: 10/09/2018
+    Description: Helper function. Finds the last node in the linked list and
+                 returns it. Returns NULL if called with an empty head,
+                 although such a case is not used in the main function
+                 add_node.*/
+User * getLastNode ( User * head ) {
+    if ( head == NULL ) {
+		    return head;
+	  }
+	  User * current = head;
+	  while ( current != NULL ) {
+		    if ( current->next == NULL ) {
+			      return current;
+		    }
+		    current = (current)->next;
+	  }
+	  return NULL;
 }
 
-void print_scoreboard(User *head) {
-        fprintf(stdout, "\n");
-        fprintf(stdout, "---- SCORE BOARD ---- \n");
-	if (head -> next != NULL) {
-		User *current = head -> next;
-		while (current != NULL) {
-			printf("\n");
-			printf("Player name: %s \n", current->name);
-			printf("High score: %d \n", current->max_score);
-			printf("Games played: %d \n", current->total_games);
-			printf("Total score: %d \n", current->total_score);
-			printf("\n");
-			printf("--------------------- \n");
-
-			if (current->next == NULL) {
-				break;
-			}
-			current = (current)->next;
-		}
-	}
+/* Author: Carlo Pagcanlungan
+   Date: 10/09/2018
+   Description: Displays a visual table of the scoreboard.*/
+void printScoreboard ( User * head ) {
+    fprintf ( stdout, "\n" );
+    fprintf ( stdout, "---- SCORE BOARD ---- \n" );
+	  if ( head->next != NULL ) {
+		    User * current = head->next;
+		    while ( current != NULL ) {
+			      printf ( "\n" );
+			      printf ( "Player name: %s \n", current->name );
+			      printf ( "High score: %d \n", current->max_score );
+			      printf ( "Games played: %d \n", current->total_games );
+			      printf ( "Total score: %d \n", current->total_score );
+			      printf ( "\n" );
+			      printf ( "--------------------- \n" );
+			      if ( current->next == NULL ) {
+				        break;
+			      }
+			      current = ( current )->next;
+		    }
+	  }
 }
 
-void add_node(User *head, char* name, int max_score) {
-	User *user_ptr;
-	if (head != NULL) {
-		 user_ptr = malloc(sizeof(struct user));
-	}
-	strcpy(user_ptr->name, name);
-	user_ptr->max_score = max_score;
-	user_ptr->total_games = 1;
-	user_ptr->total_score = max_score;
-	user_ptr->next = NULL;
+/* Author: Carlo Pagcanlungan
+   Date: 10/09/2018
+   Description: Adds a User pointer node onto the linked list.*/
+void addNode ( User * head, char * name, int maxScore ) {
+	  User * userPointer;
+	  if ( head != NULL ) {
+		    userPointer = malloc ( sizeof ( struct user ) );
+	  }
+	  strcpy ( userPointer->name, name );
+	  userPointer->maxScore = maxScore;
+	  userPointer->totalGames = 1;
+	  userPointer->totalScore = maxScore;
+	  userPointer->next = NULL;
 
-	if (head == NULL) {
-		head = user_ptr;
-	}
-	else {
-		get_last_node(head)->next = user_ptr;
-	}
+	  if (head == NULL) {
+		    head = userPointer;
+	  }
+	  else {
+		    getLastNode ( head )->next = userPointer;
+	  }
 }
 
-void update_node_with_name(User *head, char* name, int current_score) {
-	if (user_is_in_list(head, name) == 1) {
-		User *user_ptr = find_user_with_name(head, name);
-		if (current_score > (user_ptr->max_score)) {
-			user_ptr->max_score = current_score;
-		}
-		user_ptr->total_games += 1;
-		user_ptr->total_score += current_score;
-	}
+/* Author: Carlo Pagcanlungan
+   Date: 10/09/2018
+   Description: If a User pointer in the linked list has the given name, then
+                the values of the User is changed and updated.*/
+void updateNodeWithName ( User * head, char * name, int currentScore ) {
+	  if (userIsInList ( head, name ) == 1 ) {
+		    User * userPointer = findUserWithName ( head, name );
+		    if ( currentScore > ( userPointer->maxScore ) ) {
+			      userPointer->maxScore = currentScore;
+		    }
+		    userPointer->totalGames += 1;
+		    userPointer->totalScore += currentScore;
+	  }
 }
