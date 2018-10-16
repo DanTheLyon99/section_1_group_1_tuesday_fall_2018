@@ -14,19 +14,20 @@ typedef struct preset_dice {
 } PresetDice;
 
 // The rolled dice which do not keep their values between games.
-typedef struct rolled_dice {
+typedef struct RolledDice
+{
 	char character;
 	int position;
 } RolledDice;
 
 
 void initialize_preset_dice(struct preset_dice* input_array_of_dice);
-void roll_but_not_shuffle_dice(struct rolled_dice* game_dice,
+void roll_but_not_shuffle_dice(struct RolledDice* game_dice,
 		struct preset_dice* input_array_of_dice);
 
-void shuffle_rolled_dice_positions(struct rolled_dice* game_dice);
-void print_game_board(struct rolled_dice** game_board);
-void roll_dice(struct rolled_dice** game_board,
+void shuffle_rolled_dice_positions(struct RolledDice* game_dice);
+void print_game_board(struct RolledDice** game_board);
+void roll_dice(struct RolledDice** game_board,
 		struct preset_dice* input_array_of_dice);
 
 void convert_to_board(char *letters, char ***board);

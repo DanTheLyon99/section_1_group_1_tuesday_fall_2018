@@ -27,7 +27,7 @@ void initialize_preset_dice(struct preset_dice* input_array_of_dice) {
 
 // Rolls the dice to be used at the start of each game. Puts the rolled dice in
 // game_dice. Does not shuffle the dice. Helper function.
-void roll_but_not_shuffle_dice(struct rolled_dice* game_dice,
+void roll_but_not_shuffle_dice(struct RolledDice* game_dice,
 		struct preset_dice* input_array_of_dice) {
 
 	srand(time(NULL));
@@ -38,9 +38,9 @@ void roll_but_not_shuffle_dice(struct rolled_dice* game_dice,
 }
 
 // Shuffles an array of rolled dice. Helper function.
-void shuffle_rolled_dice_positions(struct rolled_dice* game_dice) {
+void shuffle_rolled_dice_positions(struct RolledDice* game_dice) {
 
-	struct rolled_dice new_game_dice[16];
+	struct RolledDice new_game_dice[16];
 
 	int r = 0;
 	for (int i = 0; i < 16; i++) {
@@ -63,16 +63,16 @@ void shuffle_rolled_dice_positions(struct rolled_dice* game_dice) {
 
 // Rolls the dice to be used at the start of the game and shuffles them, putting
 // the dice into the 2D array game_dice. Call once at the start of every game.
-void roll_dice(struct rolled_dice** game_board,
+void roll_dice(struct RolledDice** game_board,
 		struct preset_dice* input_array_of_dice){
 
-	game_board[0] = malloc(sizeof(struct rolled_dice) * 4);
-	game_board[1] = malloc(sizeof(struct rolled_dice) * 4);
-	game_board[2] = malloc(sizeof(struct rolled_dice) * 4);
-	game_board[3] = malloc(sizeof(struct rolled_dice) * 4);
+	game_board[0] = malloc(sizeof(struct RolledDice) * 4);
+	game_board[1] = malloc(sizeof(struct RolledDice) * 4);
+	game_board[2] = malloc(sizeof(struct RolledDice) * 4);
+	game_board[3] = malloc(sizeof(struct RolledDice) * 4);
 
 	// temporary array of structs to contain adjusted 1D array of dice.
-	struct rolled_dice adjusted_dice_array[16];
+	struct RolledDice adjusted_dice_array[16];
 
 	roll_but_not_shuffle_dice(adjusted_dice_array, input_array_of_dice);
 	shuffle_rolled_dice_positions(adjusted_dice_array);
@@ -83,8 +83,8 @@ void roll_dice(struct rolled_dice** game_board,
 		}
 	}
 }
-// Prints a visualization of the input array of rolled_dice.
-void print_game_board(struct rolled_dice** game_board) {
+// Prints a visualization of the input array of RolledDice.
+void print_game_board(struct RolledDice** game_board) {
 
 	for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
@@ -116,7 +116,7 @@ void print_hc_board(char boggle[][4]) {
 
 /** Converts board from a string version to 2D array. Used in test mode**/
 void convert_to_board(char *letters, char ***board){
-	// allocate space for boggle board on heap in order to access it in main. 
+	// allocate space for boggle board on heap in order to access it in main.
 	char *word;
 	int i, j, t = 0;
 
@@ -133,7 +133,7 @@ void convert_to_board(char *letters, char ***board){
 			if (j != 3) {
 				board_deref[i][j] = letters[t];
 				t++;
-				
+
 			}
 			else {
 				board_deref[i][j] = letters[t];
