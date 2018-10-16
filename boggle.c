@@ -256,7 +256,7 @@ int main (int argc, char ** argv) {
 
         checkSubmitted = lookup (guessedWords, SMALL_HASH_SIZE, inputWord);
 
-	  if (checkSubmitted == NULL)
+	  if (checkSubmitted == NULL){
 
     /*checking if length of word is > 2*/
     if (strlen(inputWord) > 2) {
