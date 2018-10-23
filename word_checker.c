@@ -175,42 +175,68 @@ Date:
 Description:
 */
 int test_word_checker( char **boggle, char *word ){
+    
     int row;
     int letter;
     int column;
     int m;
     int n;
     int **visited;
+    
     visited = malloc( sizeof(int * ) * 4 );
     visited[ 0 ] = malloc( sizeof(int) * 4 );
     visited[ 1 ] = malloc( sizeof(int) * 4 );
     visited[ 2 ] = malloc( sizeof(int) * 4 );
     visited[ 3 ] = malloc( sizeof(int) * 4 );
-    for( m = 0; m < 4; m++ ){
-        for( n = 0; n < 4; n++ ){
-            if( m == 0 && n == 0 ){
+    
+    for ( m = 0; m < 4; m++ ) {
+    
+        for ( n = 0; n < 4; n++ ) {
+        
+            if ( m == 0 && n == 0 ) {
+            
                 visited[ m ][ n ] = 1;
-            }else{
-                visited[ m ][ n ] = 0;
+            
             }
+            else 
+            {
+                
+                visited[ m ][ n ] = 0;
+                
+            }
+            
         }
+        
     }
-    for ( int row = 0; row < 4; row++ ){
-        for ( int column = 0; column < 4; column++ ){
-            if( testAbideRules( row, column, word, boggle, 0, visited )){
+    
+    for ( int row = 0; row < 4; row++ ) 
+    {
+    
+        for ( int column = 0; column < 4; column++ )
+        {
+        
+            if ( testAbideRules( row, column, word, boggle, 0, visited ) ){
+                
                 free( visited[ 0 ] );
                 free( visited[ 1 ] );
                 free( visited[ 2 ] );
                 free( visited[ 3 ] );
+                
                 return 1;
+                
             }
+            
         }
+        
     }
+    
     free(visited[ 0 ]);
     free(visited[ 1 ]);
     free(visited[ 2 ]);
     free(visited[ 3 ]);
+    
     return 0;
+    
 }
 
 /*
@@ -218,43 +244,73 @@ Author: Jing Xuan Long (1022621)
 Date:
 Description:
 */
-int hc_word_checker(char boggle[][4], char *word){
+int hc_word_checker(char boggle[ ][ 4 ], char *word){
+    
     int row;
     int letter;
     int column;
     int m;
     int n;
     int **visited;
+    
     visited = malloc( sizeof( int * ) * 4 );
     visited[ 0 ] = malloc( sizeof( int ) * 4 );
     visited[ 1 ] = malloc( sizeof( int ) * 4 );
     visited[ 2 ] = malloc( sizeof( int ) * 4 );
     visited[ 3 ] = malloc( sizeof( int ) * 4 );
-    for( m = 0; m < 4; m++ ){
-        for( n = 0; n < 4; n++ ){
-            if( m == 0 && n == 0 ){
+    
+    for ( m = 0; m < 4; m++ ) 
+    {
+   
+        for ( n = 0; n < 4; n++ ) 
+        {
+        
+            if ( m == 0 && n == 0 ) 
+            {
+            
                 visited[ m ][ n ] = 1;
-            }else{
+                
+            } 
+            else 
+            {
+            
                 visited[ m ][ n ] = 0;
+    
             }
+    
         }
+    
     }
-    for ( int row = 0; row < 4; row++ ){
-        for ( int column = 0; column < 4; column++ ){
-            if( hc_abides_rules( row, column, word, boggle, 0, visited ) ){
+    
+    for ( int row = 0; row < 4; row++ )
+    {
+        
+        for ( int column = 0; column < 4; column++ )
+        {
+            
+            if( hc_abides_rules( row, column, word, boggle, 0, visited ) )
+            {
+               
                 free( visited[ 0 ] );
                 free( visited[ 1 ] );
                 free( visited[ 2 ] );
                 free( visited[ 3 ] );
+                
                 return 1;
+            
             }
+            
         }
+        
     }
+    
     free( visited[ 0 ] );
     free( visited[ 1 ] );
     free( visited[ 2 ] );
     free( visited[ 3 ] );
+        
     return 0;
+    
 }
 
 /*
@@ -262,47 +318,82 @@ Author: Jing Xuan Long (1022621)
 Date:
 Description:
 */
-int hc_abides_rules( int i, int j, char *word, char boggle[][ 4 ], int subLength, int **visited ){
+int hc_abides_rules( int i, int j, char *word, char boggle[][ 4 ], int subLength, int **visited )
+{
+    
     int adjacentCell;
-    char currentLetter = word[ subLength ];
-    int answer = ( subLength == ( strlen( word ) - 1 ) );
-    if( subLength == ( strlen( word ) - 1 )){
-        return 1;
-    }
     int allX[] = { 0, -1, -1, -1, 0, 1, 1, 1 };
     int allY[] = { 1, 1, 0, -1, -1, -1, 0, 1 };
     int newX;
     int newY;
     char findLetter;
-    if( toupper( currentLetter ) == 'Q' && toupper( word[ subLength + 2 ] ) == hc_get_letter( i, j, boggle ) ){
+    char currentLetter = word[ subLength ];
+    int answer = ( subLength == ( strlen( word ) - 1 ) );
+    
+    if( subLength == ( strlen( word ) - 1 ))
+    {
+    
+        return 1;
+    
+    }
+    
+
+    
+    if( toupper( currentLetter ) == 'Q' && toupper( word[ subLength + 2 ] ) == hc_get_letter( i, j, boggle ) )
+    {
+        
         findLetter = word[ subLength + 3 ];
         subLength++;
         subLength++;
         currentLetter = word[ subLength ];
-    }else{
-        findLetter = word[ subLength + 1 ];
+        
     }
+    else
+    {
+    
+        findLetter = word[ subLength + 1 ];
+    
+    }
+    
     int result = 0;
-    for( adjacentCell = 0; adjacentCell < 8; adjacentCell++ ){
+    
+    for( adjacentCell = 0; adjacentCell < 8; adjacentCell++ )
+    {
+        
         int newX = i + allX[ adjacentCell ];
         int newY = j + allY[ adjacentCell ];
+        
         if( ( newX >= 0 ) &&
         ( newX < 4 ) &&
         ( newY >=0 ) &&
         ( newY < 4 ) &&
         toupper( findLetter ) == hc_get_letter( newX, newY, boggle ) &&
-        !visited[ newX ][ newY ]){
+        !visited[ newX ][ newY ])
+        {
+            
             visited[newX][newY] = 1;
             ++subLength;
             result = hc_abides_rules( newX, newY, word, boggle, subLength, visited );
-            if( result ){
+            
+            if( result )
+            {
+                
                 return 1;
-            }else{
-                --subLength;
+                
             }
+            else
+            {
+                
+                --subLength;
+                
+            }
+            
         }
+        
     }
+    
     return 0;
+
 }
 
 /*
@@ -311,5 +402,7 @@ Date:
 Description:
 */
 char hc_get_letter( int i, int j, char boggle[][ 4 ] ){
+    
     return boggle[ i ][ j ];
+
 }
