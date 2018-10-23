@@ -8,10 +8,14 @@ int alreadyShuffled( RolledDice die );
    Call once at program start. */
 void initializePresetDice( PresetDice * inputArrayOfDice )
 {
-    int i = 0;
 
-    for ( i = 0; i < 16; i++ ) {
-        inputArrayOfDice[ i ].position = 0;
+    int index = 0;
+
+    for ( index = 0; index < 16; index++ )
+    {
+
+        inputArrayOfDice[ index ].position = 0;
+
     }
 
     /* initializes individual potential chars for each dice */
@@ -31,6 +35,7 @@ void initializePresetDice( PresetDice * inputArrayOfDice )
     inputArrayOfDice[ 13 ].configurations = "RALESC";
     inputArrayOfDice[ 14 ].configurations = "UWILRG";
     inputArrayOfDice[ 15 ].configurations = "PACEMD";
+
 }
 
 /* Author: William Crocket
@@ -40,16 +45,21 @@ void initializePresetDice( PresetDice * inputArrayOfDice )
    Helper function. */
 void rollButNotShuffleDice( RolledDice * gameDice, PresetDice * inputArrayOfDice )
 {
-    int i = 0;
+
+    int index = 0;
     int face = 0;
 
     /* Randomize the seed */
     srand( time( NULL ) );
 
-    for ( i = 0; i < 16; i++ ) {
+    for ( index = 0; index < 16; index++ )
+    {
+
         face = rand() % 6;
-        gameDice[ i ].character = inputArrayOfDice[ i ].configurations[ face ];
+        gameDice[ index ].character = inputArrayOfDice[ index ].configurations[ face ];
+
     }
+
 }
 
 /* Author: William Crocket
@@ -57,32 +67,43 @@ void rollButNotShuffleDice( RolledDice * gameDice, PresetDice * inputArrayOfDice
    Description: Shuffles an array of rolled dice. Helper function. */
 void shuffleRolledDicePositions( RolledDice * gameDice )
 {
+
     /* newGameDice is a temporary array to hold the shuffled dice */
     RolledDice newGameDice[ 16 ];
-    int i = 0;
+    int index = 0;
     int randomIndex = 0;
 
-    for ( i = 0; i < 16; i++ ) {
+    for ( index = 0; index < 16; index++ )
+    {
 
         /* Randomize the seed */
         srand( time( NULL ) );
 
-        /* Loop until an i is generated such that the corresponding die
+        /* Loop until an row is generated such that the corresponding die
            has not been shuffled yet */
-        do {
-            randomIndex = rand() % 16;
-        } while ( alreadyShuffled( gameDice[ randomIndex ] ) );
+        do
+        {
 
-        newGameDice[ i ] = gameDice[ randomIndex ];
+            randomIndex = rand() % 16;
+
+        }
+        while ( alreadyShuffled( gameDice[ randomIndex ] ) );
+
+        newGameDice[ index ] = gameDice[ randomIndex ];
         gameDice[ randomIndex ].position = 1;
+
     }
     
     /* This loop copies all of the shuffled dice from the temporary newGameDice
        array back to the original gameDice array */
-    for ( i = 0; i < 16; i++ ) {
-        gameDice[ i ] = newGameDice[ i ];
-        gameDice[ i ].position = i + 1;
+    for ( index = 0; index < 16; index++ )
+    {
+
+        gameDice[ index ] = newGameDice[ index ];
+        gameDice[ index ].position = row + 1;
+
     }
+
 }
 
 /* Author: William Crocket
@@ -92,12 +113,20 @@ void shuffleRolledDicePositions( RolledDice * gameDice )
    Helper function. */
 int alreadyShuffled( RolledDice die )
 {
-    if ( die.position ) {
+
+    if ( die.position )
+    {
+
         return 1;
+
     }
-    else {
+    else
+    {
+
         return 0;
+
     }
+
 }
 
 /* Author: William Crocket
@@ -107,24 +136,31 @@ int alreadyShuffled( RolledDice die )
    Call once at the start of every game. */
 void rollDice( RolledDice ** gameBoard, PresetDice * inputArrayOfDice )
 {
+
     /* temporary array of structs to contain adjusted 1D array of dice. */
     RolledDice adjustedDiceArray[ 16 ];
-    int i = 0;
-    int j = 0;
+    int row = 0;
+    int column = 0;
 
     gameBoard[ 0 ] = malloc( sizeof( RolledDice ) * 4 );
     gameBoard[ 1 ] = malloc( sizeof( RolledDice ) * 4 );
     gameBoard[ 2 ] = malloc( sizeof( RolledDice ) * 4 );
     gameBoard[ 3 ] = malloc( sizeof( RolledDice ) * 4 );
-
     rollButNotShuffleDice( adjustedDiceArray, inputArrayOfDice );
     shuffleRolledDicePositions( adjustedDiceArray );
 
-    for ( i = 0; i < 4; i++ ) {
-        for ( j = 0; j < 4; j++ ) {
-            gameBoard[ i ][ j ] = adjustedDiceArray[ ( i * 4 ) + j ];
+    for ( row = 0; row < 4; row++ )
+    {
+
+        for ( column = 0; column < 4; column++ )
+        {
+
+            gameBoard[ row ][ column ] = adjustedDiceArray[ ( row * 4 ) + column ];
+
         }
+
     }
+
 }
 
 /* Author: William Crocket
@@ -132,19 +168,33 @@ void rollDice( RolledDice ** gameBoard, PresetDice * inputArrayOfDice )
    Description: Prints a visualization of the input array of rolledDice. */
 void printGameBoard( RolledDice ** gameBoard )
 {
-    int i = 0;
-    int j = 0;
 
-    for ( i = 0; i < 4; i++ ) {
-        for ( j = 0; j < 4; j++ ) {
-            if ( j != 3 ) {
-                printf( "%c \t", gameBoard[ i ][ j ].character );
+    int row = 0;
+    int column = 0;
+
+    for ( row = 0; row < 4; row++ )
+    {
+
+        for ( column = 0; column < 4; column++ )
+        {
+
+            if ( column != 3 )
+            {
+
+                printf( "%c \t", gameBoard[ row ][ column ].character );
+
             }
-            else {
-                printf( "%c \n", gameBoard[ i ][ j ].character );
+            else
+            {
+
+                printf( "%c \n", gameBoard[ row ][ column ].character );
+
             }
+
         }
+
     }
+
 }
 
 /* Author: William Crocket
@@ -153,23 +203,30 @@ void printGameBoard( RolledDice ** gameBoard )
    Used in test mode */
 void convertToBoard( char * letters, char *** board )
 {
-    int i = 0;
-    int j = 0;
+
+    int row = 0;
+    int column = 0;
     int positionInString = 0;
 
     /* Allocate space for boggle board on heap in order to access it in main. */
     *board = malloc( sizeof( char * ) * 4 );
     char ** boardDeref = *board;
-
     boardDeref[ 0 ] = malloc( sizeof( char ) * 4 );
     boardDeref[ 1 ] = malloc( sizeof( char ) * 4 );
     boardDeref[ 2 ] = malloc( sizeof( char ) * 4 );
     boardDeref[ 3 ] = malloc( sizeof( char ) * 4 );
 
-    for ( i = 0; i < 4; i++ ) {
-        for ( j = 0; j < 4; j++ ) {
-            boardDeref[ i ][ j ] = letters[ positionInString ];
+    for ( row = 0; row < 4; row++ )
+    {
+
+        for ( column = 0; column < 4; column++ )
+        {
+
+            boardDeref[ row ][ column ] = letters[ positionInString ];
             positionInString++;
+
         }
+
     }
+
 }
