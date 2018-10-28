@@ -31,7 +31,7 @@ DNode * lookup ( DNode ** dictionary, int hashSize, const char * key )
     
     for ( nodePointer = dictionary [ hashValue % hashSize ];
           nodePointer != NULL;
-		  nodePointer = nodePointer->next )
+          nodePointer = nodePointer->next )
     {
         
         if ( strcmp ( key, nodePointer->key ) == 0 )
@@ -116,7 +116,7 @@ char * copyString ( const char * originalString )
 {
     char * copiedString;
     int length = strlen ( originalString );
-	copiedString = ( char * ) malloc ( length + 1 );
+    copiedString = ( char * ) malloc ( length + 1 );
 	
     if ( copiedString != NULL )
     {
@@ -125,5 +125,5 @@ char * copyString ( const char * originalString )
     }
 	
     copiedString [ length ] = '\0';
-	return copiedString;
+    return copiedString;
 }
