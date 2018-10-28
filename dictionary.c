@@ -9,10 +9,15 @@
 unsigned hash( const char * word )
 {
     unsigned hashValue;
-    for ( hashValue = 0; *word != '\0'; word++ ) {
+    
+    for ( hashValue = 0; *word != '\0'; word++ )
+    {
+        
         hashValue = *word + 31 * hashValue;
+        
     }
-		return hashValue;
+    
+    return hashValue;
 }
 
 /* Author: Carlo Pagcanlungan
@@ -23,13 +28,20 @@ DNode * lookup ( DNode ** dictionary, int hashSize, const char * key )
 {
     DNode * nodePointer;
     unsigned int hashValue = hash( key );
+    
     for ( nodePointer = dictionary [ hashValue % hashSize ];
           nodePointer != NULL;
-		      nodePointer = nodePointer->next ) {
-		    if ( strcmp ( key, nodePointer->key ) == 0 ) {
+		  nodePointer = nodePointer->next )
+    {
+        
+        if ( strcmp ( key, nodePointer->key ) == 0 )
+        {
+            
             return nodePointer;
-				}
-		}
+            
+        }
+    
+    }
     return NULL;
 }
 
@@ -41,16 +53,26 @@ DNode * insert ( DNode ** dictionary, int hashSize, const char * key )
 {
     unsigned int hashValue;
     DNode * nodePointer;
-    if ( ( nodePointer = lookup ( dictionary, hashSize, key ) ) == NULL ) {
+    
+    if ( ( nodePointer = lookup ( dictionary, hashSize, key ) ) == NULL )
+    {
+        
         nodePointer = ( DNode * ) malloc ( sizeof ( *nodePointer ) );
+        
         if ( nodePointer == NULL ||
-			       ( nodePointer->key = copyString ( key ) ) == NULL ) {
+             ( nodePointer->key = copyString ( key ) ) == NULL )
+        {
+            
             return NULL;
+            
         }
-		    hashValue = hash ( key ) % hashSize;
-		    nodePointer->next = dictionary [ hashValue ];
-		    dictionary [ hashValue ] = nodePointer;
+        
+        hashValue = hash ( key ) % hashSize;
+        nodePointer->next = dictionary [ hashValue ];
+        dictionary [ hashValue ] = nodePointer;
+    
     }
+    
     return nodePointer;
 }
 
@@ -59,18 +81,31 @@ DNode * insert ( DNode ** dictionary, int hashSize, const char * key )
 	 Description: Frees every element of the linked list.*/
 void freeDictionary ( DNode ** dictionary, int hashSize ) {
     int counter;
-	  for ( counter = 0; counter < hashSize; counter++ ) {
-		    if ( dictionary [ counter ] != NULL ) {
+    
+    for ( counter = 0; counter < hashSize; counter++ )
+    {
+        
+        if ( dictionary [ counter ] != NULL )
+        {   
+            
             DNode * head = dictionary [ counter ];
-			      DNode * current = head;
-            while (current != NULL) {
-				        DNode * tempNode = current;
-				        current = current->next;
-				        free ( tempNode );
+            DNode * current = head;
+            
+            while (current != NULL)
+            {
+                
+                DNode * tempNode = current;
+                current = current->next;
+                free ( tempNode );
+            
             }
-			      dictionary[ counter ] = NULL;
+            
+            dictionary[ counter ] = NULL;
+            
         }
+    
     }
+
 }
 
 /* Author: Carlo Pagcanlungan
@@ -78,11 +113,16 @@ void freeDictionary ( DNode ** dictionary, int hashSize ) {
 	 Description: Makes and returns a duplicate of the given string.*/
 char * copyString ( const char * originalString ) {
     char * copiedString;
-	  int length = strlen ( originalString );
-	  copiedString = ( char * ) malloc ( length + 1 );
-	  if ( copiedString != NULL ) {
-		    strncpy ( copiedString, originalString, length );
-	  }
-	  copiedString [ length ] = '\0';
-	  return copiedString;
+    int length = strlen ( originalString );
+	copiedString = ( char * ) malloc ( length + 1 );
+	
+    if ( copiedString != NULL )
+    {
+        
+        strncpy ( copiedString, originalString, length );
+        
+	}
+	
+    copiedString [ length ] = '\0';
+	return copiedString;
 }
