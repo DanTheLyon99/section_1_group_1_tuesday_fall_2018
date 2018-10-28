@@ -1,6 +1,6 @@
 #include <string.h>
-#include "dictionary.h"
 #include <stdio.h>
+#include "dictionary.h"
 
 /* Author: Carlo Pagcanlungan
    Date: 10/09/2018
@@ -9,9 +9,9 @@
 unsigned hash( const char * word )
 {
     unsigned hashValue;
-        for ( hashValue = 0; *word != '\0'; word++ ) {
-		        hashValue = *word + 31 * hashValue;
-        }
+    for ( hashValue = 0; *word != '\0'; word++ ) {
+        hashValue = *word + 31 * hashValue;
+    }
 		return hashValue;
 }
 
@@ -27,7 +27,7 @@ DNode * lookup ( DNode ** dictionary, int hashSize, const char * key )
           nodePointer != NULL;
 		      nodePointer = nodePointer->next ) {
 		    if ( strcmp ( key, nodePointer->key ) == 0 ) {
-			      return nodePointer;
+            return nodePointer;
 				}
 		}
     return NULL;
@@ -42,9 +42,9 @@ DNode * insert ( DNode ** dictionary, int hashSize, const char * key )
     unsigned int hashValue;
     DNode * nodePointer;
     if ( ( nodePointer = lookup ( dictionary, hashSize, key ) ) == NULL ) {
-		    nodePointer = ( DNode * ) malloc ( sizeof ( *nodePointer ) );
-		    if ( nodePointer == NULL ||
-			       ( nodePointer->key = copystr ( key ) ) == NULL ) {
+        nodePointer = ( DNode * ) malloc ( sizeof ( *nodePointer ) );
+        if ( nodePointer == NULL ||
+			       ( nodePointer->key = copyString ( key ) ) == NULL ) {
             return NULL;
         }
 		    hashValue = hash ( key ) % hashSize;
@@ -61,9 +61,9 @@ void freeDictionary ( DNode ** dictionary, int hashSize ) {
     int counter;
 	  for ( counter = 0; counter < hashSize; counter++ ) {
 		    if ( dictionary [ counter ] != NULL ) {
-			      DNode * head = dictionary [ counter ];
+            DNode * head = dictionary [ counter ];
 			      DNode * current = head;
-			      while (current != NULL) {
+            while (current != NULL) {
 				        DNode * tempNode = current;
 				        current = current->next;
 				        free ( tempNode );
@@ -76,8 +76,8 @@ void freeDictionary ( DNode ** dictionary, int hashSize ) {
 /* Author: Carlo Pagcanlungan
    Date: 10/09/2018
 	 Description: Makes and returns a duplicate of the given string.*/
-char * copystr ( const char * originalString ) {
-	  char * copiedString;
+char * copyString ( const char * originalString ) {
+    char * copiedString;
 	  int length = strlen ( originalString );
 	  copiedString = ( char * ) malloc ( length + 1 );
 	  if ( copiedString != NULL ) {
