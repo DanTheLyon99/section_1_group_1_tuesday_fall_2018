@@ -55,7 +55,7 @@ void rollButNotShuffleDice( RolledDice * gameDice, PresetDice * inputArrayOfDice
     for ( index = 0; index < 16; index++ )
     {
 
-        face = rand() % 6;
+        face = rand( ) % 6;
         gameDice[ index ].character = inputArrayOfDice[ index ].configurations[ face ];
 
     }
@@ -84,7 +84,7 @@ void shuffleRolledDicePositions( RolledDice * gameDice )
         do
         {
 
-            randomIndex = rand() % 16;
+            randomIndex = rand( ) % 16;
 
         }
         while ( alreadyShuffled( gameDice[ randomIndex ] ) );
