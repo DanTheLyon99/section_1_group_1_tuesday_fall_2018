@@ -4,7 +4,7 @@
 
 /* Author: Carlo Pagcanlungan
    Date: 10/09/2018
-	 Description: Form hash value for string word. This produces a starting value
+   Description: Form hash value for string word. This produces a starting value
                 in the dictionary array.*/
 unsigned hash( const char * word )
 {
@@ -47,7 +47,7 @@ DNode * lookup ( DNode ** dictionary, int hashSize, const char * key )
 
 /* Author: Carlo Pagcanlungan
    Date: 10/09/2018
-	 Description: Inserts a new DNode into the linked list if the key does not
+   Description: Inserts a new DNode into the linked list if the key does not
                 already exist and if the node and key are both not NULL.*/
 DNode * insert ( DNode ** dictionary, int hashSize, const char * key )
 {
@@ -78,8 +78,9 @@ DNode * insert ( DNode ** dictionary, int hashSize, const char * key )
 
 /* Author: Carlo Pagcanlungan
    Date: 10/09/2018
-	 Description: Frees every element of the linked list.*/
-void freeDictionary ( DNode ** dictionary, int hashSize ) {
+   Description: Frees every element of the linked list.*/
+void freeDictionary ( DNode ** dictionary, int hashSize )
+{
     int counter;
     
     for ( counter = 0; counter < hashSize; counter++ )
@@ -110,8 +111,9 @@ void freeDictionary ( DNode ** dictionary, int hashSize ) {
 
 /* Author: Carlo Pagcanlungan
    Date: 10/09/2018
-	 Description: Makes and returns a duplicate of the given string.*/
-char * copyString ( const char * originalString ) {
+   Description: Makes and returns a duplicate of the given string.*/
+char * copyString ( const char * originalString )
+{
     char * copiedString;
     int length = strlen ( originalString );
 	copiedString = ( char * ) malloc ( length + 1 );
@@ -120,8 +122,7 @@ char * copyString ( const char * originalString ) {
     {
         
         strncpy ( copiedString, originalString, length );
-        
-	}
+    }
 	
     copiedString [ length ] = '\0';
 	return copiedString;
