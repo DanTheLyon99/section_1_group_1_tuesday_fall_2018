@@ -22,7 +22,7 @@ unsigned hash( const char * word )
 
 /* Author: Carlo Pagcanlungan
    Date: 10/09/2018
-	 Description: Search linked list for given key. If found, return the DNode
+   Description: Search linked list for given key. If found, return the DNode
                 pointer. If not, return NULL.*/
 DNode * lookup ( DNode ** dictionary, int hashSize, const char * key )
 {
