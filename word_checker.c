@@ -189,11 +189,14 @@ int test_word_checker( char **boggle, char *word ){
     visited[ 2 ] = malloc( sizeof(int) * 4 );
     visited[ 3 ] = malloc( sizeof(int) * 4 );
     
-    for ( m = 0; m < 4; m++ ) {
+    for ( m = 0; m < 4; m++ ) 
+    {
     
-        for ( n = 0; n < 4; n++ ) {
+        for ( n = 0; n < 4; n++ ) 
+        {
         
-            if ( m == 0 && n == 0 ) {
+            if ( m == 0 && n == 0 )
+            {
             
                 visited[ m ][ n ] = 1;
             
@@ -215,7 +218,8 @@ int test_word_checker( char **boggle, char *word ){
         for ( int column = 0; column < 4; column++ )
         {
         
-            if ( testAbideRules( row, column, word, boggle, 0, visited ) ){
+            if ( testAbideRules( row, column, word, boggle, 0, visited ) )
+            {
                 
                 free( visited[ 0 ] );
                 free( visited[ 1 ] );
