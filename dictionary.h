@@ -21,7 +21,7 @@ typedef struct dNode
 } DNode;
 
 /*makes a copy of the input string*/
-char * copystr( const char * );
+char * copyString( const char * );
 
 /*form hash value for string s
   this produces a starting value in the dictionary array*/
