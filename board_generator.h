@@ -43,7 +43,7 @@ void printGameBoard( struct rolledDice** gameBoard );
 /* Rolls the dice to be used at the start of the game and shuffles them, putting
    the dice into the 2D array gameDice. Call once at the start of every game*/
 void rollDice( struct rolledDice** gameBoard,
-	           struct presetDice* inputArrayOfDice );
+               struct presetDice* inputArrayOfDice );
 
 /* Converts board from a string version to 2D array. Used in test mode*/
 void convertToBoard( char *letters, char ***board );
