@@ -6,6 +6,11 @@
 #include <time.h>
 #include <stdlib.h>
 
+/* Author: Daniel Lyon 
+   Date: 10/09/2018
+   Description: Contains all function protocols
+   and structs for the board_generator.h program
+*/
 
 // The pre-set dice which keep their values between games.
 typedef struct preset_dice {

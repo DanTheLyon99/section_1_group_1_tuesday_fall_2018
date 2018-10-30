@@ -1,68 +1,129 @@
 #include <string.h>
-#include "dictionary.h"
 #include <stdio.h>
+#include "dictionary.h"
 
-
-//form hash value for string s
-//this produces a starting value in the dictionary array
-unsigned hash(const char *s) {
-	unsigned hashval;
-	for (hashval = 0; *s != '\0'; s++)
-		hashval = *s + 31 * hashval;
-	return hashval ;
+/* Author: Carlo Pagcanlungan
+   Date: 10/09/2018
+   Description: Form hash value for string word. This produces a starting value
+                in the dictionary array.*/
+unsigned hash( const char * word )
+{
+    unsigned hashValue;
+    
+    for ( hashValue = 0; *word != '\0'; word++ )
+    {
+        
+        hashValue = *word + 31 * hashValue;
+        
+    }
+    
+    return hashValue;
 }
 
-DNode * lookup (DNode ** dictionary, int hash_size, const char *key) {
-	DNode * np;
-	unsigned int hashval = hash(key);
-	for (np = dictionary [hashval % hash_size]; np !=NULL; np = np->next)
-		if (strcmp (key, np->key) == 0)
-			return np; 
-	return NULL; //not found
+/* Author: Carlo Pagcanlungan
+   Date: 10/09/2018
+   Description: Search linked list for given key. If found, return the DNode
+                pointer. If not, return NULL.*/
+DNode * lookup ( DNode ** dictionary, int hashSize, const char * key )
+{
+    DNode * nodePointer;
+    unsigned int hashValue = hash( key );
+    
+    for ( nodePointer = dictionary [ hashValue % hashSize ];
+          nodePointer != NULL;
+          nodePointer = nodePointer->next )
+    {
+        
+        if ( strcmp ( key, nodePointer->key ) == 0 )
+        {
+            
+            return nodePointer;
+            
+        }
+    
+    }
+    return NULL;
 }
 
-DNode * insert (DNode ** dictionary, int hash_size,  const char * key) {
-	unsigned int hashval;
-	DNode *np;
-
-	if ((np = lookup (dictionary, hash_size, key)) == NULL ) { //
-		np = (DNode *) malloc (sizeof (*np));
-
-		if (np == NULL || (np->key = copystr (key)) == NULL)
-			return NULL;
-
-		hashval = hash (key) % hash_size;
-
-		np->next = dictionary [hashval];
-		dictionary [hashval] = np;
-	}
-	return np;
+/* Author: Carlo Pagcanlungan
+   Date: 10/09/2018
+   Description: Inserts a new DNode into the linked list if the key does not
+                already exist and if the node and key are both not NULL.*/
+DNode * insert ( DNode ** dictionary, int hashSize, const char * key )
+{
+    unsigned int hashValue;
+    DNode * nodePointer;
+    
+    if ( ( nodePointer = lookup ( dictionary, hashSize, key ) ) == NULL )
+    {
+        
+        nodePointer = ( DNode * ) malloc ( sizeof ( *nodePointer ) );
+        
+        if ( nodePointer == NULL ||
+             ( nodePointer->key = copyString ( key ) ) == NULL )
+        {
+            
+            return NULL;
+            
+        }
+        
+        hashValue = hash ( key ) % hashSize;
+        nodePointer->next = dictionary [ hashValue ];
+        dictionary [ hashValue ] = nodePointer;
+    
+    }
+    
+    return nodePointer;
 }
 
-void free_dictionary (DNode ** dictionary, int hash_size) {
-	int i;
-	for (i=0; i<hash_size; i++) { 
-		if (dictionary [i]!=NULL) { //if there is an entry at position i
-			DNode *head = dictionary[i]; 
-			DNode *current = head;
-			while (current != NULL) {
-				DNode * temp = current;
-				current = current->next;
-				free (temp);
-			}
-			dictionary[i] = NULL;  //BUG fix
-		}
-	}
+/* Author: Carlo Pagcanlungan
+   Date: 10/09/2018
+   Description: Frees every element of the linked list.*/
+void freeDictionary ( DNode ** dictionary, int hashSize )
+{
+    int counter;
+    
+    for ( counter = 0; counter < hashSize; counter++ )
+    {
+        
+        if ( dictionary [ counter ] != NULL )
+        {   
+            
+            DNode * head = dictionary [ counter ];
+            DNode * current = head;
+            
+            while (current != NULL)
+            {
+                
+                DNode * tempNode = current;
+                current = current->next;
+                free ( tempNode );
+            
+            }
+            
+            dictionary[ counter ] = NULL;
+            
+        }
+    
+    }
+
 }
 
-char *copystr(const char *s) { /* make a duplicate of s */
-	char *p;
-	int len = strlen(s);
-
-	p = (char *) malloc(len+1); /* +1 for ?\0? */
-	if (p != NULL)
-		strncpy(p, s, len);
-	p[len] = '\0';
-
-	return p;
+/* Author: Carlo Pagcanlungan
+   Date: 10/09/2018
+   Description: Makes and returns a duplicate of the given string.*/
+char * copyString ( const char * originalString )
+{
+    char * copiedString;
+    int length = strlen ( originalString );
+    copiedString = ( char * ) malloc ( length + 1 );
+	
+    if ( copiedString != NULL )
+    {
+        
+        strncpy ( copiedString, originalString, length );
+    }
+	
+    copiedString [ length ] = '\0';
+    return copiedString;
 }
