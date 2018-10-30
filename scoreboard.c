@@ -13,28 +13,28 @@
 User * findUserWithName ( User * head, char * nameToFind )
 {
     User * current = head;
-    
+
     if ( head == NULL )
     {
-        
+
         return current;
-    
+
     }
-    
+
     while ( current != NULL )
     {
-        
+
         if ( strcmp ( current->name, nameToFind ) == 0 )
         {
-            
+
             return current;
-            
+
         }
-        
+
         current = ( current )->next;
-        
+
     }
-    
+
     return NULL;
 }
 
@@ -45,27 +45,27 @@ void freeAll ( User * head )
 {
     if ( head->next == NULL )
     {
-        
+
         free( head );
-        
+
     }
     else
     {
-        
+
         User * current = head->next;
         User * previous = head;
-        
+
         while ( current != NULL )
         {
-            
+
             free ( previous );
             previous = current;
             current = ( current )->next;
-            
+
         }
-        
+
     }
-    
+
 }
 
 /* Author: Carlo Pagcanlungan
@@ -77,29 +77,29 @@ User * getUserAtIndex ( User * head, int index )
 {
     User * current = head;
     int count = 0;
-    
+
     if ( head == NULL )
     {
-        
+
         return current;
-        
+
     }
-    
+
     while ( current != NULL )
     {
-        
+
         if ( count == index + 1 )
         {
-            
+
             return current;
-            
+
         }
-        
+
         current = ( current )->next;
         count++;
-        
+
     }
-    
+
     return NULL;
 }
 
@@ -112,29 +112,29 @@ int getIndexOfUserWithName ( User * head, char * nameToFind )
 {
     User * current = head;
     int count = 0;
-    
+
     if ( head == NULL && head->name != nameToFind )
     {
-        
+
         return -1;
-        
+
     }
-    
+
     while ( current != NULL )
     {
-        
+
         if ( strcmp ( current->name, nameToFind ) )
         {
-            
+
             return count;
-            
+
         }
-        
+
         current = ( current )->next;
         count++;
-        
+
     }
-    
+
     return -1;
 }
 
@@ -145,21 +145,21 @@ int getIndexOfUserWithName ( User * head, char * nameToFind )
 int userIsInList ( User * head, char * nameToFind )
 {
     User * current = head;
-    
+
     while ( current != NULL )
     {
-        
+
         if ( strcmp ( current->name, nameToFind ) == 0 )
         {
-            
+
             return 1;
-            
+
         }
-        
+
         current = ( current )->next;
-        
+
     }
-    
+
     return 0;
 }
 
@@ -170,30 +170,30 @@ int getLength ( User * head )
 {
     User * current = head;
     int count = 0;
-    
+
     if ( head == NULL )
     {
-        
+
         return count;
-        
+
     }
-    
+
     while (current != NULL)
     {
-        
+
         count++;
-        
+
         if ( current->next == NULL )
         {
-            
+
             return count;
-            
+
         }
-        
+
         current = (current)->next;
-        
+
     }
-    
+
     return 0;
 }
 
@@ -206,28 +206,28 @@ int getLength ( User * head )
 User * getLastNode ( User * head )
 {
     User * current = head;
-    
+
     if ( head == NULL )
     {
-        
+
         return current;
-        
+
     }
-    
+
     while ( current != NULL )
     {
-        
+
         if ( current->next == NULL )
         {
-            
+
             return current;
-            
+
         }
-        
+
         current = (current)->next;
-        
+
     }
-    
+
     return NULL;
 }
 
@@ -238,34 +238,34 @@ void printScoreboard ( User * head )
 {
     fprintf ( stdout, "\n" );
     fprintf ( stdout, "---- SCORE BOARD ---- \n" );
-    
+
     if ( head->next != NULL ) {
-        
+
         User * current = head->next;
-        
+
         while ( current != NULL ) {
-            
+
             printf ( "\n" );
             printf ( "Player name: %s \n", current->name );
-            printf ( "High score: %d \n", current->max_score );
-            printf ( "Games played: %d \n", current->total_games );
-            printf ( "Total score: %d \n", current->total_score );
+            printf ( "High score: %d \n", current->maxScore );
+            printf ( "Games played: %d \n", current->totalGames );
+            printf ( "Total score: %d \n", current->totalScore );
             printf ( "\n" );
             printf ( "--------------------- \n" );
-            
+
             if ( current->next == NULL )
             {
-                
+
                 break;
-                
+
             }
-            
+
             current = ( current )->next;
-            
+
         }
-        
+
     }
-    
+
 }
 
 /* Author: Carlo Pagcanlungan

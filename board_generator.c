@@ -93,14 +93,14 @@ void shuffleRolledDicePositions( RolledDice * gameDice )
         gameDice[ randomIndex ].position = 1;
 
     }
-    
+
     /* This loop copies all of the shuffled dice from the temporary newGameDice
        array back to the original gameDice array */
     for ( index = 0; index < 16; index++ )
     {
 
         gameDice[ index ] = newGameDice[ index ];
-        gameDice[ index ].position = row + 1;
+        gameDice[ index ].position = index + 1;
 
     }
 
