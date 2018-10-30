@@ -179,49 +179,50 @@ int main (int argc, char ** argv) {
 
 	  }
 
-      /*Close the file*/
+          /*Close the file*/
 	  fclose (inputFP);
 
 
-	  if (argc == 1){
+	  if (argc == 1)
+	  {
 
-			/*Start the game in normal mode*/
-		    fprintf(stdout, "playing in normal mode\n\n");
+	  	/*Start the game in normal mode*/
+		fprintf(stdout, "playing in normal mode\n\n");
 
-		    system("clear");
+		system("clear");
 
-		    initializePresetDice(globalDice);
+		initializePresetDice(globalDice);
 
-		    rollDice(gameBoard, globalDice);
+		rollDice(gameBoard, globalDice);
 
-           /*Loop until turnCount is less than '0'*/
-		    while (turnCount >= 0)
+        /*Loop until turnCount is less than '0'*/
+		while (turnCount >= 0)
+	    {
+
+			/*Save the original input word*/
+			strcpy(originalInputWord, inputWord);
+
+            /*Convert String to upper case*/
+			convertToUpper2(&inputWord);
+
+            /*New variables*/
+			User *thisUser;
+			char inputName[100];
+
+            /*Check if the user wants to quit the game*/
+	     	if (strcmp(originalInputWord, "q") == 0) 
 			{
 
-				  /*Save the original input word*/
-			      strcpy(originalInputWord, inputWord);
+		 		/*"q" is the input, print scoreboard and exit game*/
+				printScoreboard(head);
 
-                  /*Convert String to upper case*/
-			      convertToUpper2(&inputWord);
+				break;
+			 }
 
-                 /*New variables*/
-			      User *thisUser;
-			      char inputName[100];
-
-                  /*Check if the user wants to quit the game*/
-			      if (strcmp(originalInputWord, "q") == 0) 
-				  {
-
-				        /* "q" is the input, print scoreboard and exit game*/
-				       printScoreboard(head);
-
-				       break;
-			      }
-
-				 /* "n" is the input, adds user to/changes user in linked list and*/
-				 /* resets game*/
-    			 if (strcmp(originalInputWord, "n") == 0) 
-				 {
+			 /*"n" is the input, adds user to/changes user in linked list and*/
+			 /* resets game*/
+   		  	if (strcmp(originalInputWord, "n") == 0) 
+			{
 
           				/*Print the scoreboard*/
 			   			 printScoreboard(head);
