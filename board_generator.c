@@ -81,16 +81,14 @@ void shuffleRolledDicePositions( RolledDice * gameDice )
 
         /* Loop until an row is generated such that the corresponding die
            has not been shuffled yet */
-        do
+        while(gameDice[randomIndex].position==-1)
         {
 
-            randomIndex = rand( ) % 16;
-
+            randomIndex = (int) (rand( ) % 16);
         }
-        while ( alreadyShuffled( gameDice[ randomIndex ] ) );
 
         newGameDice[ index ] = gameDice[ randomIndex ];
-        gameDice[ randomIndex ].position = 1;
+        gameDice[ randomIndex ].position = -1;
 
     }
 
@@ -146,10 +144,12 @@ void rollDice( RolledDice ** gameBoard, PresetDice * inputArrayOfDice )
     gameBoard[ 1 ] = malloc( sizeof( RolledDice ) * 4 );
     gameBoard[ 2 ] = malloc( sizeof( RolledDice ) * 4 );
     gameBoard[ 3 ] = malloc( sizeof( RolledDice ) * 4 );
+
     rollButNotShuffleDice( adjustedDiceArray, inputArrayOfDice );
+
     shuffleRolledDicePositions( adjustedDiceArray );
 
-    for ( row = 0; row < 4; row++ )
+    for ( row = 0;  row < 4; row++ )
     {
 
         for ( column = 0; column < 4; column++ )

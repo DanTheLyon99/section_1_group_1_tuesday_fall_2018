@@ -224,9 +224,6 @@ Description: Checks for matching word
 int testWordChecker( char **boggle, char *word )
 {
 
-    int row;
-    int letter;
-    int column;
     int m;
     int n;
     int ** visited;
@@ -299,9 +296,6 @@ Description: Checks for matching word
 int HCWordChecker(char boggle[ ][ 4 ], char *word)
 {
 
-    int row;
-    int letter;
-    int column;
     int m;
     int n;
     int ** visited;
@@ -377,11 +371,9 @@ int HCAbidesRules( int i, int j, char *word, char boggle[][ 4 ], int subLength, 
     int adjacentCell;
     int allX[] = { 0, -1, -1, -1, 0, 1, 1, 1 };
     int allY[] = { 1, 1, 0, -1, -1, -1, 0, 1 };
-    int newX;
-    int newY;
+
     char findLetter;
     char currentLetter = word[ subLength ];
-    int answer = ( subLength == ( strlen( word ) - 1 ) );
 
     if ( subLength == ( strlen( word ) - 1 ) )
     {

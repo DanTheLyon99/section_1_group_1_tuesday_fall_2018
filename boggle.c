@@ -29,7 +29,6 @@ void freeAndResetBoard(
 
     for ( int i = 0; i < 4; i++)
     {
-
     	/*Frees all the gameBoard Structs*/
 	    free(gameBoard[i]);
     }
@@ -131,22 +130,21 @@ void incrementTotalScore(
 int main (int argc, char ** argv) {
 
     /*Variables*/
-	int i, points = 0, testPoints = 0, invalidSize = 0;
+	int i, testPoints = 0;
     char inputWord[100];
 	char originalInputWord[100];
 
 	FILE *inputFP;
 	char line [MAX_LINE];
-	char *fileName;
+	char *fileName =" ";
 
   /*variables*/
   FILE *testFileFp;
   char testLine [MAX_LINE];
-  char *testWords;
+
   char **testBoard;
   int fileLineCounter = 1;
   int j;
-  DNode* testResult;
   int begin = 0;
 
 
@@ -166,7 +164,6 @@ int main (int argc, char ** argv) {
 	RolledDice *gameBoard[4];
 
 	FILE *outputFP;
-	char readLine[MAX_LINE];
 
     /*Check if the file can be opened*/
 	if(!(inputFP = fopen ( DICTNAME , "r" )))
@@ -217,7 +214,6 @@ int main (int argc, char ** argv) {
 			converttoupper2(&inputWord);
 
             /*New variables*/
-			User *thisUser;
 			char inputName[100];
 
             /*Check if the user wants to quit the game*/
@@ -245,7 +241,7 @@ int main (int argc, char ** argv) {
        				currentScore = 0;
 
        				strcpy(inputWord, "");
-
+              fprintf(stdout,"test\n");
        				freeAndResetBoard(gameBoard, globalDice);
        				turnCount = 0;
        				system("clear");
@@ -297,7 +293,6 @@ int main (int argc, char ** argv) {
     /*in test mode with file*/
     else if (argc == 2) {
 
-        testResult =  argv[1];
         fprintf(stdout, "playing in test mode with file: %s\n", fileName);
 
 
