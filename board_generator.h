@@ -32,7 +32,7 @@ void initializePresetDice( struct presetDice* inputArrayOfDice );
 /* Rolls the dice to be used at the start of each game. Puts the rolled dice in
    gameDice. Does not shuffle the dice. Helper function*/
 void rollButNotShuffleDice( struct rolledDice* gameDice,
-	                        struct presetDice* inputArrayOfDice );
+                            struct presetDice* inputArrayOfDice );
 
 /* Shuffles an array of rolled dice. Helper function*/
 void shuffleRolledDicePositions( struct rolledDice* gameDice );
