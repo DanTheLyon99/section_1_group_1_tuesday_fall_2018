@@ -246,7 +246,7 @@ int test_word_checker( char **boggle, char *word ){
 /*
 Author: Jing Xuan Long (1022621)
 Date: 29th September 2018
-Description:
+Description: Checks for matching word
 */
 int hc_word_checker(char boggle[ ][ 4 ], char *word){
     
@@ -319,8 +319,8 @@ int hc_word_checker(char boggle[ ][ 4 ], char *word){
 
 /*
 Author: Jing Xuan Long (1022621)
-Date:
-Description:
+Date: 29th September 2018
+Description: Checks if word matches criteria 
 */
 int hc_abides_rules( int i, int j, char *word, char boggle[][ 4 ], int subLength, int **visited )
 {
@@ -400,8 +400,8 @@ int hc_abides_rules( int i, int j, char *word, char boggle[][ 4 ], int subLength
 
 /*
 Author: Jing Xuan Long (1022621)
-Date:
-Description:
+Date: 29th September 2018
+Description: Gets letter
 */
 char hc_get_letter( int i, int j, char boggle[][ 4 ] ){
     
