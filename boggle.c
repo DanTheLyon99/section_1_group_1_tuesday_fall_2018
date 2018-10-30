@@ -23,8 +23,8 @@ void incrementTotalScore(
   Date: October 1, 2018
   Description: Clears the game baord*/
 void freeAndResetBoard(
-    struct RolledDice** gameBoard,
-    struct PresetDice* inputArrayOfDice)
+    RolledDice** gameBoard,
+    PresetDice* inputArrayOfDice)
 {
 
     for (int i = 0; i < 4; i++) 
