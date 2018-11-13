@@ -85,6 +85,7 @@ void shuffleRolledDicePositions( RolledDice * gameDice )
         {
 
             randomIndex = ( int ) ( rand( ) % 16 );
+           
         }
 
         newGameDice[ index ] = gameDice[ randomIndex ];
