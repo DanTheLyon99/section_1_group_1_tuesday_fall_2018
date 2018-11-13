@@ -81,10 +81,10 @@ void shuffleRolledDicePositions( RolledDice * gameDice )
 
         /* Loop until an row is generated such that the corresponding die
            has not been shuffled yet */
-        while(gameDice[randomIndex].position==-1)
+        while( gameDice[ randomIndex ].position == -1 )
         {
 
-            randomIndex = (int) (rand( ) % 16);
+            randomIndex = ( int ) ( rand( ) % 16 );
         }
 
         newGameDice[ index ] = gameDice[ randomIndex ];
